@@ -1,5 +1,4 @@
 import * as C from 'recharts'
-
 import {type ColorToken, token} from '#/system/tokens'
 import {useLineChartContext} from './LineChartContext'
 
@@ -7,15 +6,15 @@ type ExtractToneFromColorToken<T extends string> =
 	T extends `${infer Tone}.${string}` ? Tone : never
 
 const toneToStroke = {
-	blue: token('colors.blue.800'),
-	rose: token('colors.rose.800'),
-	indigo: token('colors.indigo.800'),
-	green: token('colors.green.800'),
-	yellow: token('colors.yellow.800'),
-	red: token('colors.red.800'),
-	purple: token('colors.purple.800'),
-	pink: token('colors.pink.800'),
-	gray: token('colors.gray.800'),
+	blue: token('colors.blue.400'),
+	rose: token('colors.rose.400'),
+	indigo: token('colors.indigo.400'),
+	green: token('colors.green.400'),
+	yellow: token('colors.yellow.400'),
+	red: token('colors.red.400'),
+	purple: token('colors.purple.400'),
+	pink: token('colors.pink.400'),
+	gray: token('colors.gray.400'),
 } as const satisfies Partial<
 	Record<ExtractToneFromColorToken<ColorToken>, string>
 >
@@ -33,16 +32,31 @@ export function Line({tone = 'gray', ...props}: Line.Props) {
 			isAnimationActive={false}
 			{...props}
 			stroke={toneToStroke[tone]}
-			activeDot={
-				closestPoint?.dataKey === props.dataKey
-					? {
-							stroke: toneToStroke.pink,
-						}
-					: undefined
+			strokeWidth={2}
+			opacity={
+				closestPoint == null || closestPoint?.dataKey === props.dataKey
+					? 1
+					: 0.3
 			}
+			activeDot={false}
 			dot={({key, ...dotProps}) => {
-				pointsRef.current[`${props.dataKey?.toString()}-${key}`] ??= dotProps
-				return <C.Dot key={key} {...dotProps} />
+				pointsRef.current[`${props.dataKey?.toString()}__${dotProps.index}`] ??=
+					dotProps
+				const isClosest =
+					closestPoint?.index === dotProps.index &&
+					closestPoint?.dataKey === dotProps.dataKey
+				if (isClosest) {
+					return (
+						<C.Dot
+							key={key}
+							{...dotProps}
+							r={2}
+							stroke={toneToStroke.pink}
+							fill={toneToStroke.pink}
+						/>
+					)
+				}
+				return <C.Dot key={key} {...dotProps} r={2} />
 			}}
 		/>
 	)

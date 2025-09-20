@@ -55,9 +55,10 @@ export function LineChart<TData extends readonly unknown[]>({
 								R.values(),
 								R.sortBy([
 									(p) => {
-										const xDist = Math.abs(p.cx - coords.x)
-										const yDist = Math.abs(p.cy - coords.y)
-										return Math.sqrt(xDist * xDist + yDist)
+										// find the closest point to the mouse cursor
+										const dx = p.cx - coords.x
+										const dy = p.cy - coords.y
+										return dx * dx + dy * dy
 									},
 									'asc',
 								]),
