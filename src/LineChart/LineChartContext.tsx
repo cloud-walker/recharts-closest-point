@@ -7,6 +7,7 @@ export interface Point {
 	cy: number
 	payload: Record<string, unknown>
 	dataKey: DataKey<string>
+	index: number
 }
 export type Points = Record<string, Point>
 
