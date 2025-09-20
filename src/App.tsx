@@ -1,8 +1,8 @@
 import {faker as F} from '@faker-js/faker'
-import * as C from 'recharts'
 
 import {css} from '#/system/css'
-import {Line} from './LineChart'
+
+import {Line, LineChart} from './LineChart'
 
 const data = F.helpers.multiple(
 	() => {
@@ -18,20 +18,9 @@ const data = F.helpers.multiple(
 
 export function App() {
 	return (
-		<C.ResponsiveContainer className={css({height: 'svh!'})}>
-			<C.LineChart data={data}>
-				<Line dataKey="quality_1" tone="blue" />
-				<Line dataKey="quality_2" tone="green" />
-				{/* <C.XAxis
-          dataKey="date"
-          tickFormatter={(date) => new Date(date).toLocaleDateString()}
-        />
-        <C.YAxis /> */}
-				{/* <C.Tooltip
-          labelFormatter={(label) => new Date(label).toLocaleDateString()}
-        /> */}
-				{/* <C.CartesianGrid stroke="#ccc" /> */}
-			</C.LineChart>
-		</C.ResponsiveContainer>
+		<LineChart data={data} className={css({height: 'svh!'})}>
+			<Line dataKey="quality_1" tone="blue" />
+			<Line dataKey="quality_2" tone="green" />
+		</LineChart>
 	)
 }

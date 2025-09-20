@@ -1,6 +1,7 @@
 import * as C from 'recharts'
 
 import {type ColorToken, token} from '#/system/tokens'
+import {useLineChartContext} from './LineChartContext'
 
 type ExtractToneFromColorToken<T extends string> =
 	T extends `${infer Tone}.${string}` ? Tone : never
@@ -26,7 +27,23 @@ export declare namespace Line {
 }
 
 export function Line({tone = 'gray', ...props}: Line.Props) {
+	const {pointsRef, closestPoint} = useLineChartContext()
 	return (
-		<C.Line isAnimationActive={false} {...props} stroke={toneToStroke[tone]} />
+		<C.Line
+			isAnimationActive={false}
+			{...props}
+			stroke={toneToStroke[tone]}
+			activeDot={
+				closestPoint?.dataKey === props.dataKey
+					? {
+							stroke: toneToStroke.pink,
+						}
+					: undefined
+			}
+			dot={({key, ...dotProps}) => {
+				pointsRef.current[`${props.dataKey?.toString()}-${key}`] ??= dotProps
+				return <C.Dot key={key} {...dotProps} />
+			}}
+		/>
 	)
 }
