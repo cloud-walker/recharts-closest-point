@@ -21,13 +21,6 @@ export default defineConfig({
 		extend: {},
 	},
 
-	// importMap: {
-	// 	css: '#/system/css',
-	// 	jsx: '#/system/jsx',
-	// 	patterns: '#/system/patterns',
-	// 	recipes: '#/system/recipes',
-	// },
-
 	// The output directory for your css system
 	outdir: 'styled-system',
 })
