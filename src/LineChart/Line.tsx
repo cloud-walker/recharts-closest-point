@@ -52,6 +52,7 @@ export function Line({tone = 'gray', ...props}: Line.Props) {
 							{...dotProps}
 							r={2}
 							stroke={toneToStroke.pink}
+							strokeWidth={8}
 							fill={toneToStroke.pink}
 						/>
 					)
