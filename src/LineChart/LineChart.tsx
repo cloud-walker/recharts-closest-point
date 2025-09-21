@@ -36,13 +36,20 @@ export function LineChart<TData extends readonly unknown[]>({
 	const coordsRef = useRef<{x: number; y: number}>(undefined)
 	const mouseHoverRef = useRef(false)
 	const [closestPoint, setClosestPoint] = useState<Point | undefined>(undefined)
+	const [isLockingTooltip, setIsLockingTooltip] = useState(false)
 	const {refs, floatingStyles, context} = useFloating({
 		middleware: [offset(16), autoPlacement()],
 	})
 
 	const ctx = useMemo(
-		() => ({pointsRef, coordsRef, closestPoint}),
-		[closestPoint],
+		() => ({
+			pointsRef,
+			coordsRef,
+			closestPoint,
+			isLockingTooltip,
+			setIsLockingTooltip,
+		}),
+		[closestPoint, isLockingTooltip],
 	)
 
 	return (
@@ -56,7 +63,7 @@ export function LineChart<TData extends readonly unknown[]>({
 					const points = pointsRef.current
 					R.funnel(
 						() => {
-							if (!mouseHoverRef.current) {
+							if (!mouseHoverRef.current || isLockingTooltip) {
 								return
 							}
 							if (coords == null) {
@@ -105,6 +112,7 @@ export function LineChart<TData extends readonly unknown[]>({
 					mouseHoverRef.current = false
 					context.onOpenChange(false)
 					setClosestPoint(undefined)
+					setIsLockingTooltip(false)
 				}}
 			>
 				<LineChartContext value={ctx}>

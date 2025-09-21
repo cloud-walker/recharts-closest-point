@@ -1,6 +1,8 @@
 import * as C from 'recharts'
+
 import {css} from '#/system/css'
 import {type ColorToken, token} from '#/system/tokens'
+
 import {useLineChartContext} from './LineChartContext'
 
 type ExtractToneFromColorToken<T extends string> =
@@ -27,7 +29,7 @@ export declare namespace Line {
 }
 
 export function Line({tone = 'gray', ...props}: Line.Props) {
-	const {pointsRef, closestPoint} = useLineChartContext()
+	const {pointsRef, closestPoint, setIsLockingTooltip} = useLineChartContext()
 	return (
 		<C.Line
 			isAnimationActive={false}
@@ -58,6 +60,9 @@ export function Line({tone = 'gray', ...props}: Line.Props) {
 							stroke={toneToStroke.pink}
 							fill={toneToStroke.pink}
 							strokeWidth={8}
+							onClick={() => {
+								setIsLockingTooltip(true)
+							}}
 						/>
 					)
 				}

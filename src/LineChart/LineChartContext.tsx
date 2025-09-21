@@ -1,5 +1,6 @@
 import {createContext, use} from 'react'
 import type {DataKey} from 'recharts/types/util/types'
+
 import {raise} from '../raise'
 
 export interface Point {
@@ -15,6 +16,8 @@ export interface LineChartContextState {
 	pointsRef: React.RefObject<Points>
 	coordsRef: React.RefObject<{x: number; y: number} | undefined>
 	closestPoint: Point | undefined
+	isLockingTooltip: boolean
+	setIsLockingTooltip: (locking: boolean) => void
 }
 
 export const LineChartContext = createContext<
