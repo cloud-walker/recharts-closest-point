@@ -130,6 +130,7 @@ function Tooltip(props: React.ComponentPropsWithRef<'div'>) {
 					bg: 'gray.900',
 					padding: '4',
 					rounded: 'md',
+					transition: 'transform',
 					// biome-ignore lint/complexity/noUselessTernary: panda needs it to be static true or false values
 					srOnly: R.isEmptyish(closestPoint) ? true : false,
 				}),
