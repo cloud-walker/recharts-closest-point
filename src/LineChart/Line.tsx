@@ -35,7 +35,8 @@ export function Line({tone = 'gray', ...props}: Line.Props) {
 			stroke={toneToStroke[tone]}
 			strokeWidth={2}
 			className={css({
-				transition: 'opacity',
+				transitionProperty: '[opacity]',
+				transitionDuration: '[200ms]',
 				opacity:
 					closestPoint == null || closestPoint?.dataKey === props.dataKey
 						? 1
