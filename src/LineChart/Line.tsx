@@ -1,4 +1,5 @@
 import * as C from 'recharts'
+import {css} from '#/system/css'
 import {type ColorToken, token} from '#/system/tokens'
 import {useLineChartContext} from './LineChartContext'
 
@@ -33,11 +34,13 @@ export function Line({tone = 'gray', ...props}: Line.Props) {
 			{...props}
 			stroke={toneToStroke[tone]}
 			strokeWidth={2}
-			opacity={
-				closestPoint == null || closestPoint?.dataKey === props.dataKey
-					? 1
-					: 0.3
-			}
+			className={css({
+				transition: 'opacity',
+				opacity:
+					closestPoint == null || closestPoint?.dataKey === props.dataKey
+						? 1
+						: 0.3,
+			})}
 			activeDot={false}
 			dot={({key, ...dotProps}) => {
 				pointsRef.current[`${props.dataKey?.toString()}__${dotProps.index}`] ??=
@@ -52,12 +55,12 @@ export function Line({tone = 'gray', ...props}: Line.Props) {
 							{...dotProps}
 							r={2}
 							stroke={toneToStroke.pink}
-							strokeWidth={8}
 							fill={toneToStroke.pink}
+							strokeWidth={8}
 						/>
 					)
 				}
-				return <C.Dot key={key} {...dotProps} r={2} />
+				return <C.Dot key={key} {...dotProps} r={2} fill={toneToStroke[tone]} />
 			}}
 		/>
 	)
